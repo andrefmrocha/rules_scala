@@ -3,7 +3,6 @@ package io.bazel.rulesscala.scalac;
 import io.bazel.rulesscala.io_utils.StreamCopy;
 import io.bazel.rulesscala.jar.JarCreator;
 import io.bazel.rulesscala.worker.Worker;
-import scala.tools.nsc.Driver;
 import scala.tools.nsc.MainClass;
 import scala.tools.nsc.reporters.ConsoleReporter;
 
@@ -26,7 +25,7 @@ class ScalacWorker implements Worker.Interface {
 
   static {
     try {
-      reporterField = Driver.class.getDeclaredField("reporter"); // NoSuchFieldException
+      reporterField = ReportableMainClass.class.getDeclaredField("reporter"); // NoSuchFieldException
       reporterField.setAccessible(true);
     } catch (NoSuchFieldException ex) {
       throw new RuntimeException("could not access reporter field on Driver", ex);

@@ -66,24 +66,6 @@ public class ProtoReporter extends ConsoleReporter {
       diagnostics.add(diagnostic);
   }
 
-  private boolean testAndLog(Position pos, Severity severity, String msg) {
-    Position fpos = pos.focus();
-    Severity focusSeverity = positions.getOrDefault(fpos, (Severity) INFO());
-    boolean supress = false;
-    if(focusSeverity.equals(ERROR()))
-      supress = true;
-
-    if(focusSeverity.id() > severity.id())
-      supress = true;
-
-    if(severity.equals(focusSeverity) && messages.computeIfAbsent(fpos,(key) -> new ArrayList<>()).contains(msg))
-      supress = true;
-
-    positions.put(fpos, severity);
-    messages.computeIfAbsent(fpos, (key) -> new ArrayList<>()).add(msg);
-    return supress;
-  }
-
   private Diagnostics.Severity convertSeverity(Object severity) {
     String stringified = severity.toString().toLowerCase();
     if ("error".equals(stringified)) {
